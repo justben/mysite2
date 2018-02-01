@@ -7,25 +7,25 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 @login_required
 def main_page(request):
-	return render(request, 'login.html')
+	return render(request, 'main.html')
 
-def signout(request):
+def log_out(request):
 	logout(request)
-	return HttpResponseRedirect('/test/sign_in/')
+	return HttpResponseRedirect('/log_in/')
 	
-def signin(request):
+def log_in(request):
 	if request.method == "POST":
 		username = request.POST['username']
 		password = request.POST['password']
 
 		user = authenticate(request, username=username, password=password)
-		print(user)
+
 		if user is not None:
 			login(request, user)
-			return HttpResponseRedirect('/test/main_page/')
+			return HttpResponseRedirect('/')
 		else:
-			return HttpResponseRedirect('/test/sign_in/')
-	return render(request, "signin.html")
+			return render(request, "login.html", {"text": "用户名或密码错误"})
+	return render(request, "login.html")
 
-def hello(request):
-	return render(request, "hello.html")
+def test(request):
+	return render(request, "test.html", {"text": "hello, world."})
